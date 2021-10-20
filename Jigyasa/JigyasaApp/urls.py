@@ -3,7 +3,12 @@ from django.urls import path
 from django.conf import settings
 from .import Admin_views 
 from .import views
+from .import Staff_views
+from .import Student_views
 urlpatterns = [
+
+
+     # ADMIN URLs
      path('admin_demo/',views.admin_demo,name='admindemo'),
 
      path('admin_login/',views.admin_login,name='adminLogin'),
@@ -39,6 +44,36 @@ urlpatterns = [
      path('admin_add_subject_edit/<str:subject_id>',Admin_views.edit_subject, name='AdminAddSubjectEdit'),
      path('admin_add_subject_edit_save',Admin_views.add_subject_edit, name='AdminAddSubjectEditSave'),
  
+
+
+     
+     # STAFF URLs
+     path('staff_home/',Staff_views.staff_home,name='staffHome'),
+      
+     # STUDENT URLs
+     path('student_home/',Student_views.student_home,name='studentHome'),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
      path('student_login/',views.student_login,name='studentLogin'),

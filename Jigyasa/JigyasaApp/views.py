@@ -60,7 +60,7 @@ def admin_login(request):
         return HttpResponse('Method not allowed')
     else:
         email=request.POST.get('email')
-        password=request.POST.get('password')
+        password=request.POST.get('pass')
         print(email)
         print(password)
         get_user = EmailBackEnd.authenticate(request, username=email, password=password)

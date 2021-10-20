@@ -1,13 +1,12 @@
 {% extends 'JigyasaApp/base.html' %}
 {% load static %}
 {% block title %}
-Admin Login
+Faculty Login
 {% endblock title %}
 
 {% block css %}
-.link {
-    flex-direction: row;
-    justify-content: center;
+.link{
+flex-direction:row;
 }
 {% endblock css %}
 
@@ -17,22 +16,10 @@ Admin Login
 	<div class="container-login100"
 		style="background-image:url({% static 'JigyasaApp\loginSignup\images\bg-01.jpg' %});">
 		<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-				{% if messages %}
-				{% for message in messages  %}
-				{% if message.tags == 'error' %}
-				<div class="alert alert-danger alert-dismissible fade show" role="alert">
-					<strong>Error!!!</strong> {{message}}
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					  <span aria-hidden="true">&times;</span>
-					</button>
-				 </div>
-				{% endif %}
-				{% endfor %}
-				{% endif %}
-			<form action="/app/admin_login/" method="POST" class="login100-form validate-form">
+			<form action= {% url 'adminLogin' %} method="POST" class="login100-form validate-form">
 				{% csrf_token %}
 				<span class="login100-form-title p-b-49">
-					Admin Login
+					Admin/HOD Login
 				</span>
 
 				<div class="wrap-input100 validate-input m-b-23" data-validate="Username is reauired">
@@ -43,7 +30,7 @@ Admin Login
 
 				<div class="wrap-input100 validate-input" data-validate="Password is required">
 					<span class="label-input100">Password</span>
-					<input class="input100" type="password" name="password" placeholder="Type your password">
+					<input class="input100" type="password" name="pass" placeholder="Type your password">
 					<span class="focus-input100" data-symbol="&#xf190;"></span>
 				</div>
 
@@ -63,7 +50,17 @@ Admin Login
 				</div>
 
 				<div class="flex-col-c p-t-50 m-l-12  link">
-						<div class="second">
+					<div class="first">
+						<span class="txt1 p-b-17">
+							Create your new account
+						</span>
+						<button class="login100-form-btn">
+							<a href={% url 'adminSignupPage' %} class="txt2">
+								Sign Up
+							</a>
+						</button>
+					</div>
+					<div class="second" style="margin-left: 10%;">
 						<span class="txt1 p-b-17">
 							Go to our home Page
 						</span>
@@ -74,7 +71,6 @@ Admin Login
 						</button>
 					</div>
 				</div>
-				
 			</form>
 		</div>
 	</div>
