@@ -45,10 +45,15 @@ urlpatterns = [
      path('admin_add_subject_edit_save',Admin_views.add_subject_edit, name='AdminAddSubjectEditSave'),
  
 
+     path('admin_add_session_manage/', Admin_views.add_session_manage, name='AdminAddSessionManage'),
+     path('admin_add_session_save/', Admin_views.add_session_save, name='AdminAddSessionSave'),
 
      
      # STAFF URLs
+     path('faculty_login_page/',views.faculty_login_page,name='facultyLoginPage'),
+     path('faculty_signup_page/',views.signup_faculty_page,name='facultySignupPage'),
      path('staff_home/',Staff_views.staff_home,name='staffHome'),
+     path('staff_take_attendance/',Staff_views.staff_take_attendance,name='StaffTakeAttendance'),
       
      # STUDENT URLs
      path('student_home/',Student_views.student_home,name='studentHome'),

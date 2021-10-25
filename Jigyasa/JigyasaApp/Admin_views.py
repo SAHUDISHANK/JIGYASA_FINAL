@@ -32,12 +32,12 @@ def edit_faculty(request,staff_id):
 def edit_student(request,student_id):
     courses=Courses.objects.all()
     student=Students.objects.get(admin=student_id)
-    return render(request,"dashboard/admin/edit_student.html",{"student":student,"courses":courses} )    
+    return render(request,"dashboard/admin/edit_student.html",{"student":student,"courses":courses,"id":student_id} )    
  
 
 def edit_course(request,course_id):   
     course=Courses.objects.get(id = course_id)
-    return render(request,"dashboard/admin/edit_course.html",{"course":course} )    
+    return render(request,"dashboard/admin/edit_course.html",{"course":course,"id":course_id} )    
  
 
 def edit_subject(request,subject_id):
@@ -65,6 +65,9 @@ def add_course_manage(request):
 def add_subject_manage(request):
     subjects=Subjects.objects.all()
     return render(request, 'dashboard/admin/manage_subject.html',{'subjects':subjects})
+
+def add_session_manage(request):
+    return render(request, 'dashboard/admin/manage_session.html')
 
 
 
@@ -120,19 +123,17 @@ def add_student_save(request):
         session_end = request.POST.get('session_end_date')
         sex = request.POST.get('sex')
         cnf_password = request.POST.get('password1')
-      
-
+        print(sex)
         if password == cnf_password:
             try:
                 user = CustomUser.objects.create_user(user_type=3, username=username, first_name=first_name,
                                                       last_name=last_name, email=email_address, password=cnf_password)
                 course_obj = Courses.objects.get(id=course_id)
                 user.students.course_id = course_obj
-                user.students.gender = sex 
+                user.students.gender = sex
                 user.students.session_start_year = session_start
                 user.students.session_end_year = session_end
                 user.students.address = address
-                user.students.profile_pic = ""
                 user.save()
                 messages.success(request, "Successfully Added Student")
                 return HttpResponseRedirect('/app/admin_add_student_add')
@@ -163,7 +164,22 @@ def add_subject_save(request):
             messages.error(request, "Failed to Add Subject")
             return HttpResponseRedirect("/app/admin_add_subject_add")
 
+def add_session_save(request):
+    if request.method != "POST":
+        return HttpResponseRedirect("/app/admin_add_session_manage")
+    else:
+        session_start_year= request.POST.get("session_start")
+        session_end_year= request.POST.get("session_end")
+        try:
+            sessionyear = SessionYearModel(session_start_year = session_start_year , session_end_year = session_end_year)
+            sessionyear.save()
+            messages.success(request,"successfully added session")
+            return HttpResponseRedirect("/app/admin_add_session_manage")
+        except:
+             messages.error(request,"Failed to  added session")
+             return HttpResponseRedirect("/app/admin_add_session_manage")
 
+ 
 
 
 def add_faculty_edit(request):
@@ -270,3 +286,4 @@ def add_subject_edit(request):
         except:
             messages.error(request,"Failed to Edit Subject")
             return HttpResponseRedirect("/app/admin_add_subject_edit/"+subject_id)
+

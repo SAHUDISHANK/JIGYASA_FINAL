@@ -46,11 +46,27 @@ def student_login(request):
 # faculty login
 
 def faculty_login(request):
-    print("faculty Login")
-    if request == 'POST':
-        return HttpResponse('Email:' + request.POST.get('email') + " password:"+request.POST.get('password'))
-    else:
+    if request.method != 'POST':
         return HttpResponse('Method not allowed')
+    else:
+        email=request.POST.get('email')
+        password=request.POST.get('pass')
+        print(email)
+        print(password)
+        get_user = EmailBackEnd.authenticate(request, username=email, password=password)
+        print(get_user)
+
+        if get_user != None:
+            login(request,get_user)
+            return HttpResponseRedirect('/app/staff_home')
+        else:
+            messages.error(request,"Invalid login Credentials")
+            return HttpResponseRedirect('/app/faculty_login_page')
+
+def faculty_user_details(request):
+    if request.user != None:
+        return HttpResponse("User:" + request.user.email + "Usertype:" + request.user.user_type)
+
 
 # admin login
 
@@ -85,3 +101,7 @@ def admin_user_logout(request):
 
 def admin_demo(request):
     return render(request,'dashboard/demo.html')
+    
+
+
+
