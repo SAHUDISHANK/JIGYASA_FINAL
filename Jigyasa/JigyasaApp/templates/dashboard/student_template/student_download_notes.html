@@ -1,0 +1,89 @@
+
+
+
+{% extends 'dashboard/student_template/base_template.html'%}
+{% load static %}
+
+{% block title %}
+Student Download Notes
+{% endblock title%}
+
+{% block main_title %}
+Student Download Notes
+{% endblock main_title%}
+{% block page_title %}
+Student Download Notes
+{% endblock page_title%}
+
+{% block main_content %}
+<section class="content">
+    <div class="container-fluid">
+
+        <div class="backend-message">
+            {% if messages %}
+            {% for message in messages  %}
+            {% if message.tags == 'success' %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success!!</strong> {{message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!!!</strong> {{message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+        </div>
+        <!-- Main column -->
+        <div class="row">
+            <div class="col-md-12">
+                {% if shared_notes.count > 0 %}
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Previous Shared Notes</h3>
+
+
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>Staff ID</th>
+                                    <th>Staff Name</th>
+                                    <th>Subject</th>
+                                    <th>Topic</th>
+                                    <th><i class="fa fa-download" aria-hidden="true"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for notes in shared_notes %}
+                                <tr>
+                                    <td> {{notes.staff_id.id}} </td>
+                                    <td>{{notes.staff_id.admin.first_name}} {{notes.staff_id.admin.last_name}}</td>
+                                    <td>{{notes.subject_id.subject_name}}</td>
+                                    <td>{{notes.topic}}</td>
+                                    <td><a href="{{notes.notes}}" target="_blank">Click Here</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                {% endif %}
+                <!-- Form end -->
+            </div><!-- /.card -->
+        </div> <!-- Form end -->
+    </div><!-- /.card -->
+    </div> <!-- col-md-12 -->
+    <!-- /.container-fluid -->
+</section>
+{% endblock main_content %}

@@ -40,6 +40,17 @@
             </a>
            
           </li>
+          <!-- Share Notes -->
+        {% url 'FacultyShareNotes' as FacultyShareNotes %}
+        <li class="nav-item has-treeview menu-open">
+          <a href='{{FacultyShareNotes}}' class="nav-link {% if request.path == FacultyShareNotes %}active {% endif %}  ">
+            <i class="fas fa-file-upload"></i>
+            &ensp;
+            <p>
+              Share Class Notes
+            </p>
+          </a>
+        </li>
           {% url 'FacultyUpdateAttendance' as FacultyUpdateAttendance %}
           <li class="nav-item has-treeview menu-open">
           <a href='{{FacultyUpdateAttendance}}' class="nav-link {% if request.path == FacultyUpdateAttendance %}active {% endif %}  ">
@@ -58,6 +69,18 @@
             </p>
           </a>
         </li>
+
+          {% url 'FacultyTodoList' as FacultyTodoList %}
+        <li class="nav-item has-treeview menu-open">
+          <a href='{{FacultyTodoList}}' class="nav-link {% if request.path == FacultyTodoList %}active {% endif %}  ">
+            <i class="fas fa-list"></i>
+            &ensp;
+            <p>
+              Todo List
+            </p>
+          </a>
+        </li>
+
           {% url 'FacultyApplyLeave' as FacultyApplyLeave %}
           <li class="nav-item has-treeview menu-open">
           <a href='{{FacultyApplyLeave}}' class="nav-link {% if request.path == FacultyApplyLeave %}active {% endif %}  ">

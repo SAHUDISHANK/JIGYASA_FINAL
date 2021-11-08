@@ -1,11 +1,11 @@
 from django.http.response import HttpResponse, HttpResponseRedirect,JsonResponse
 from django.shortcuts import render
-from .models import Courses, CustomUser, FeedBackStaffs, LeaveReportStaff, SessionYearModel, Staffs, Subjects, Students, Attendance,AttendanceReport
+from .models import Courses, CustomUser, FeedBackStaffs, LeaveReportStaff, SessionYearModel, ShareNotes, Staffs, Subjects, Students, Attendance,AttendanceReport
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 import json
 from django.urls import reverse
-
+from django.core.files.storage import FileSystemStorage
 def staff_home(request):
     
     admin_staff_obj=CustomUser.objects.get(id=request.user.id)
@@ -252,7 +252,6 @@ def edit_profile(request):
     }
     return render(request,'dashboard/staff_templates/edit_profile.html',param)
 
-
 def edit_profile_save(request):
     if request.method!="POST":
         return HttpResponseRedirect(reverse("StaffEditProfile"))
@@ -271,3 +270,43 @@ def edit_profile_save(request):
         except:
             messages.error(request, "Failed to Update Profile")
             return HttpResponseRedirect(reverse("StaffEditProfile"))
+
+def todo_list(request):
+    return render(request,'dashboard/staff_template/staff_todo_list.html')
+
+def share_notes(request):
+    admin_obj=CustomUser.objects.get(id=request.user.id)
+    staff_obj = Staffs.objects.get(admin=admin_obj)
+    subjects=Subjects.objects.filter(staff_id=admin_obj)
+    prev_shared_notes=ShareNotes.objects.filter(staff_id=staff_obj)
+    param={
+        'prev_shared_notes':prev_shared_notes,
+        'subjects':subjects
+    }
+    return render(request,'dashboard/staff_template/staff_share_notes.html',param)
+
+def share_notes_save(request):
+    if request.method != "POST":
+        return HttpResponse("Method not allowed")
+    else:
+        subject_id = request.POST.get('subject')
+        staff_admin_id = request.user.id
+        topic = request.POST.get('topic')
+        print(topic)
+        notes = request.FILES['notes']
+        print(notes.name,notes.size)
+        fs_obj = FileSystemStorage()
+        filename = fs_obj.save(notes.name, notes)
+        notes_url = fs_obj.url(filename)
+        print(notes_url)
+        try:
+            admin_obj=CustomUser.objects.get(id=staff_admin_id)
+            staff_obj = Staffs.objects.get(admin=admin_obj)
+            subject_obj=Subjects.objects.get(id=subject_id)
+            notes_obj=ShareNotes(topic=topic,subject_id=subject_obj,staff_id=staff_obj,notes=notes_url)
+            notes_obj.save()
+            messages.success(request, "Notes Succesfullt saved")
+            return HttpResponseRedirect(reverse('FacultyShareNotes'))
+        except Exception as e:
+            messages.error(request, e)
+            return HttpResponseRedirect(reverse('FacultyShareNotes'))

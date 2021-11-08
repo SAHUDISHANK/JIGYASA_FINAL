@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.http.response import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render
 from django.urls.base import reverse
-from .models import Attendance, AttendanceReport, Courses, CustomUser, FeedBackStudent, Students, Subjects,LeaveReportStudent
+from .models import Attendance, AttendanceReport, Courses, CustomUser, FeedBackStudent, ShareNotes, Students, Subjects,LeaveReportStudent
 
 
 def student_home(request):
@@ -40,6 +40,10 @@ def student_home(request):
         return render(request, 'dashboard/student_template/student_home_template.html',params)
     else: 
         return HttpResponse(reverse('ShowLogin'))
+
+def todo_list(request):
+    return render(request,'dashboard/student_template/student_todo_list.html')
+
 
 def student_view_attendance(request):
     student=Students.objects.get(admin=request.user.id)
@@ -140,3 +144,15 @@ def edit_profile_save(request):
         except:
             messages.error(request, "Failed to Update Profile")
             return HttpResponseRedirect(reverse("StudentEditProfile"))
+
+
+def download_notes(request):
+    admin_obj=CustomUser.objects.get(id=request.user.id)
+    student_obj=Students.objects.get(admin=admin_obj)
+    course_obj=Courses.objects.get(id=student_obj.course_id.id)
+    subjects=Subjects.objects.filter(course_id=course_obj)
+    shared_notes=ShareNotes.objects.filter(subject_id__in=subjects)
+    param={
+        'shared_notes':shared_notes,
+    }
+    return render(request,'dashboard/student_template/student_download_notes.html',param)

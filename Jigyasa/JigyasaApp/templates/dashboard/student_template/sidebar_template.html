@@ -22,7 +22,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
          {% url 'studentHome' as studentHome %}
-        <li class="nav-item">
+        <li class="nav-item has-treeview menu-open">
           <a href='{{studentHome}}' class="nav-link {% if request.path == studentHome %}active {% endif %}  ">
             <i class="fas fa-home"></i>
             <p>
@@ -33,7 +33,7 @@
         </li>
         {% url 'StudentViewAttendance' as StudentViewAttendance %}
         {% url 'StudentViewAttendancePost' as StudentViewAttendancePost %}
-        <li class="nav-item">
+        <li class="nav-item has-treeview menu-open">
           <a href='{{StudentViewAttendance}}'
             class="nav-link {% if request.path == StudentViewAttendance %}active {% endif %} {% if request.path == StudentViewAttendancePost %}active {% endif %}  ">
             <i class="fas fa-home"></i>
@@ -42,9 +42,21 @@
               
             </p>
           </a>
+          
+        </li>
+         {% url 'StudentDownloadNotes' as StudentDownloadNotes %}
+        <li class="nav-item has-treeview menu-open">
+          <a href='{{StudentDownloadNotes}}'
+            class="nav-link {% if request.path == StudentDownloadNotes %}active {% endif %}  ">
+            <i class="fas fa-file-download"></i>
+            &ensp;
+            <p>
+              Download Notes
+            </p>
+          </a>
         </li>
            {% url 'StudentApplyLeave' as StudentApplyLeave %}
-        <li class="nav-item">
+        <li class="nav-item has-treeview menu-open">
           <a href='{{StudentApplyLeave}}'
             class="nav-link {% if request.path == StudentApplyLeave %}active {% endif %}  ">
             <i class="fas fa-home"></i>
@@ -53,8 +65,20 @@
             </p>
           </a>
         </li>
+
+        {% url 'StudentTodoList' as StudentTodoList %}
+        <li class="nav-item has-treeview menu-open">
+          <a href='{{StudentTodoList}}' class="nav-link {% if request.path == StudentTodoList %}active {% endif %}  ">
+            <i class="fas fa-list"></i>
+            &ensp;
+            <p>
+              Todo List
+            </p>
+          </a>
+        </li>
+        
         {% url 'StudentFeedback' as StudentFeedback %}
-        <li class="nav-item">
+        <li class="nav-item has-treeview menu-open">
           <a href='{{StudentFeedback}}'
             class="nav-link {% if request.path == StudentFeedback %}active {% endif %}  ">
             <i class="fas fa-home"></i>
