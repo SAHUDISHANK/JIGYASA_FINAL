@@ -49,6 +49,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'JigyasaApp.LoginMiddleWare.LoginCheckMiddleWare'
+
 ]
 
 ROOT_URLCONF = 'Jigyasa.urls'
@@ -138,6 +140,8 @@ AUTH_USER_MODEL="JigyasaApp.CustomUser"
 
 # Here we provide info about our custom authentication backend system.
 AUTHENTICTAION_BACKENDS=['JigyasaApp.EmailBackEnd.EmailBackEnd']
+EMAIL_BACKEND="django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH=os.path.join(BASE_DIR,"sent_mails")
 
 # Managing Media
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

@@ -11,26 +11,58 @@
     <div class="sidebar">
       
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="info">
-          <a href="#" class="d-block">{{ user.username }}</a>
-        </div>
+      <div class="info">
+        <a href="{% url 'StudentEditProfile' %}" class="d-block">{{user.first_name}} {{user.last_name}} </a>
       </div>
+    </div>
 
       <!-- Sidebar Menu -->
-      <nav class="mt-2">
+      <nav class="mt-2"> 
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview menu-open">
-            <<a href={% url 'studentHome' %} class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-               STUDENT HOME
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-           
-          </li>
+         {% url 'studentHome' as studentHome %}
+        <li class="nav-item">
+          <a href='{{studentHome}}' class="nav-link {% if request.path == studentHome %}active {% endif %}  ">
+            <i class="fas fa-home"></i>
+            <p>
+              Home
+             
+            </p>
+          </a>
+        </li>
+        {% url 'StudentViewAttendance' as StudentViewAttendance %}
+        {% url 'StudentViewAttendancePost' as StudentViewAttendancePost %}
+        <li class="nav-item">
+          <a href='{{StudentViewAttendance}}'
+            class="nav-link {% if request.path == StudentViewAttendance %}active {% endif %} {% if request.path == StudentViewAttendancePost %}active {% endif %}  ">
+            <i class="fas fa-home"></i>
+            <p>
+              Student Attendance
+              
+            </p>
+          </a>
+        </li>
+           {% url 'StudentApplyLeave' as StudentApplyLeave %}
+        <li class="nav-item">
+          <a href='{{StudentApplyLeave}}'
+            class="nav-link {% if request.path == StudentApplyLeave %}active {% endif %}  ">
+            <i class="fas fa-home"></i>
+            <p>
+              Apply Leave
+            </p>
+          </a>
+        </li>
+        {% url 'StudentFeedback' as StudentFeedback %}
+        <li class="nav-item">
+          <a href='{{StudentFeedback}}'
+            class="nav-link {% if request.path == StudentFeedback %}active {% endif %}  ">
+            <i class="fas fa-home"></i>
+            <p>
+              Feedback
+            </p>
+          </a>
+        </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

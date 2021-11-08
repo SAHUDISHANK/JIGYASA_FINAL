@@ -1,7 +1,7 @@
 {% load static %}
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="{% url 'adminHome' %}"class="brand-link">
       <img src={% static 'dashboard/dist/img/AdminLTELogo.png' %} alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light">JIGYASA</span>
@@ -12,7 +12,7 @@
       
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="info">
-          <a href="#" class="d-block">{{ user.username }}</a>
+         <a href="{% url 'AdminProfile' %}" class="d-block">{{ user.username }}</a>
         </div>
       </div>
 
@@ -43,7 +43,7 @@
           </li>
           {% url 'AdminAddFacultyManage' as AdminAddFacultyManage %}
           <li class="nav-item">
-            <a href="{{AdminManageFaculty}}" class="nav-link  {% if request.path == AdminManageFaculty %}active {% endif %} {% if request.path == AdminEditFaculty %}active {% endif %}">
+            <a href="{{AdminAddFacultyManage}}" class="nav-link  {% if request.path == AdminAddFacultyManage %}active {% endif %} {% if request.path == AdminAddFacultyEdit %}active {% endif %}">
             <i class="fas mr-2 fa-user-circle"></i>
               <p>
                 Manage Staff
@@ -125,45 +125,61 @@
               </p>
             </a>
           </li>
+          {% url 'StudentFeedbackMessage' as StudentFeedbackMessage %}
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+            <a href="{{StudentFeedbackMessage}}" class="nav-link {% if request.path == StudentFeedbackMessage %}active {% endif %}">
+              <i class="fas mr-2 fa-book-reader"></i>
               <p>
-                View Attendence
+                Manage Student Feedback
                 <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
           </li>
+          {% url 'FacultyFeedbackMessage' as FacultyFeedbackMessage %}
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+            <a href="{{FacultyFeedbackMessage}}" class="nav-link {% if request.path == FacultyFeedbackMessage %}active {% endif %}">
+              <i class="fas mr-2 fa-book-reader"></i>
               <p>
-                Staff Feedback
+                Manage Staff Feedabck
                 <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
           </li>
+          {% url 'FacultyLeaveView' as FacultyLeaveView %}
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+            <a href="{{FacultyLeaveView}}" class="nav-link {% if request.path == FacultyLeaveView %}active {% endif %}">
+              <i class="fas mr-2 fa-book-reader"></i>
               <p>
-                Student Leave
+                Manage Faculty Leave
                 <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
           </li>
+          {% url 'StudentLeaveView' as StudentLeaveView %}
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+            <a href="{{StudentLeaveView}}" class="nav-link {% if request.path == StudentLeaveView %}active {% endif %}">
+              <i class="fas mr-2 fa-book-reader"></i>
               <p>
-                Staff Leave
+                Manage Student Leave
                 <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
           </li>
+          {% url 'AdminViewAttendance' as AdminViewAttendance %}
+          <li class="nav-item">
+            <a href="{{AdminViewAttendance}}" class="nav-link {% if request.path == AdminViewAttendance %}active {% endif %}">
+              <i class="fas mr-2 fa-book-reader"></i>
+              <p>
+                View Attendance
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+        
           
           
           
+           
           
           <!-- <li class="nav-item has-treeview">
             <a href="#" class="nav-link">

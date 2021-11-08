@@ -2,7 +2,6 @@
 {% load static %}
 {% block main_content %}
 
-
  <!-- Main content -->
  <section class="content">
   <div class="container-fluid">
@@ -15,106 +14,9 @@
           </div>
           <!-- /.card-header -->
           <!-- form start -->
-          <form role="form" action= {% url 'AdminAddStudentSave' %} method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="card-body">
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="firstname">First Name:</label>
-                        <input type="text" class="form-control" id="firstname" name="firstName"
-                            placeholder="Enter your First Name">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="lastname">Last Name:</label>
-                        <input type="text" class="form-control" id="lastname" name="lastName"
-                            placeholder="Enter your Last Name">
-                    </div>
-                </div>
-                <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="email">Email Address:</label>
-                    <input type="email" class="form-control" id="email" name="email"
-                        placeholder="Enter your Email Address.">
-                </div>
-                
-                <div class="form-group col-md-6">
-                    <label for="sex">Sex:</label>
-                    <select class="form-control" name="sex" id="sex">
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Others">others</option>
-                    </select>
-                </div>
-                </div>
-                <div class="form-group">
-                    <label for="address">Address:</label>
-                    <input type="text" class="form-control" id="address" name="address"
-                        placeholder="Enter your Address.">
-                </div>
-               
-                <div class="form-group">
-                    <label for="course">Select Your Course:</label>
-                    <select class="form-control" name="course" id="course">
-                        {% for course in courses %}
-                        <option value="{{course.id}}">{{course.course_name}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="session_start">Session Start:</label>
-                        <input type="date" class="form-control" id="start_date" name="session_start_date"
-                            placeholder="Session Start Date">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="session_end">Session End:</label>
-                        <input type="date" class="form-control" id="end_date" name="session_end_date"
-                            placeholder="Session End Date">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" class="form-control" id="username" name="username"
-                        placeholder="Enter your username">
-                </div>
-              
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="password">Password:</label>
-                        <input type="password" class="form-control" id="password" name="password"
-                            placeholder="Enter your Password">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="password1">Confirm Password:</label>
-                        <input type="password" class="form-control" id="password1" name="password1"
-                            placeholder="Enter your Password Again.">
-                </div>
-            </div>
-                
-            </div>
-
-
-            </div>
-                  <div class="form-group">
-                  {% if messages %}
-                    {% for message in messages %}
-                    {% if message.tags == 'error' %}
-                    <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
-                    {% endif %}
-                    {% if message.tags == 'success' %}
-                    <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
-                    {% endif %}
-                    {% endfor %}
-                  {% endif %}
-                </div>
-
-            </div>
-            <!-- /.card-body -->
-
-            <div class="card-footer">
-              <button type="submit" class="btn btn-primary btn-block">Add Student</button>
-            </div>
-          </form>
+          {% url 'AdminAddStudentSave' as action_path %}
+          {% include 'dashboard/admin/form_template.html' with messages=messages form=form action_path=action_path button_text='Add Student'  %}
+          
         </div>
         <!-- /.card -->
 
@@ -127,3 +29,96 @@
 <!-- /.content -->
 
 {% endblock main_content %}
+
+{% block custom_js %}
+<script>
+$(document).ready(function(){
+        console.log('Admin Add Student Ready')
+        $('#email').keyup(function(event){
+            var email=$(this).val()
+            console.log(email)
+            var formData = {
+            'email': email,
+            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+        }
+               // Here we have specified the request the browser must make with its attributes
+               if(email!=""){
+                $.ajax({
+                    url:"{% url 'CheckEmailAvailabilty' %}",
+                    type:'POST',
+                    data:formData
+                })
+                .done(function(data){
+                    parsedData = JSON.parse(data)
+                    console.log(data);
+                    if(parsedData['status'] == 'no'){
+                        $(".email_error").remove();
+                        $("<span class='email_error badge badge-danger' style='padding: 10px;color: white;font-weight: bold;margin:10px 0;'>Email Not Available</span>").insertAfter("#email");
+                    }
+                    else{
+                        $(".email_error").remove();
+                        $("<span class='email_error badge badge-success' style='padding: 10px;color: white;font-weight: bold;margin:10px 0;'>Email Available</span>").insertAfter("#email");
+                    }
+                })
+                .fail(function(){
+                    console.log("failed");
+                })
+            }
+            else{
+              $(".email_error").remove();
+            }
+            // when the ajax call is completed .done is called .
+            // it willl recieve the data from views.py from the backend django server.
+            
+        // this function help us to prevent the default nature of the submit event.(which is to reload itself.)
+        event.preventDefault();
+            
+        })
+       
+        $('#username').keyup(function(event){
+            var username=$(this).val()
+            console.log(username)
+            var formData = {
+            'username': username,
+            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+        }
+               // Here we have specified the request the browser must make with its attributes
+               if(username!=""){
+                $.ajax({
+                    url:"{% url 'CheckUserAvailabilty' %}",
+                    type:'POST',
+                    data:formData
+                })
+                .done(function(data){
+                    parsedData = JSON.parse(data)
+                    console.log(data);
+                    if(parsedData['status'] == 'no'){
+                        $(".username_error").remove();
+                        $("<span class='username_error badge badge-danger' style='padding: 10px;color: white;font-weight: bold;margin:10px 0;'>Username Not Available</span>").insertAfter("#username");
+                    }
+                    else{
+                        $(".username_error").remove();
+                        $("<span class='username_error badge badge-success' style='padding: 10px;color: white;font-weight: bold;margin:10px 0;'>Username Available</span>").insertAfter("#username");
+                    }
+                })
+                .fail(function(){
+                    console.log("failed");
+                })
+            }
+            else{
+              $(".username_error").remove();
+            }
+            // when the ajax call is completed .done is called .
+            // it willl recieve the data from views.py from the backend django server.
+            
+        // this function help us to prevent the default nature of the submit event.(which is to reload itself.)
+        event.preventDefault();
+            
+        })
+       
+    })
+
+
+</script>
+{% endblock custom_js %}
+

@@ -1,7 +1,7 @@
 {% extends 'JigyasaApp/base.html' %}
 {% load static %}
 {% block title %}
-Faculty Login
+Login
 {% endblock title %}
 
 {% block css %}
@@ -16,10 +16,9 @@ flex-direction:row;
 	<div class="container-login100"
 		style="background-image:url({% static 'JigyasaApp\loginSignup\images\bg-01.jpg' %});">
 		<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-			<form action={% url 'facultyLogin' %} method="POST" class="login100-form validate-form">
-				{% csrf_token %}
+			<form action="{% url 'doLogin' %}" method="POST" class="login100-form validate-form">				{% csrf_token %}
 				<span class="login100-form-title p-b-49">
-					Faculty Login
+					 Login
 				</span>
 
 				<div class="wrap-input100 validate-input m-b-23" data-validate="Username is reauired">
@@ -30,15 +29,15 @@ flex-direction:row;
 
 				<div class="wrap-input100 validate-input" data-validate="Password is required">
 					<span class="label-input100">Password</span>
-					<input class="input100" type="password" name="pass" placeholder="Type your password">
+					<input class="input100" type="password" name="password" placeholder="Type your password">
 					<span class="focus-input100" data-symbol="&#xf190;"></span>
 				</div>
 
 				<div class="text-right p-t-8 p-b-31">
-					<a href="#">
+					<a href="{% url 'password_reset' %}">
 						Forgot password?
 					</a>
-				</div>
+				</div>	
 
 				<div class="container-login100-form-btn">
 					<div class="wrap-login100-form-btn">
@@ -71,6 +70,17 @@ flex-direction:row;
 						</button>
 					</div>
 				</div>
+				<div class="row">
+					{% if messages %}
+				   <div class="col-12">
+					  {% for message in messages %}
+					  {% if message.tags == 'error' %}
+					  <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+					  {% endif %}
+					  {% endfor %}
+					</div>
+					{% endif %}
+				  </div>
 			</form>
 		</div>
 	</div>

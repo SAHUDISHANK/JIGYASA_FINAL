@@ -1,0 +1,30 @@
+{% extends 'JigyasaApp/base.html' %}
+{% load static %}
+{% block title %}
+Login
+{% endblock title %}
+
+{% block css %}
+.link{
+flex-direction:row;
+}
+{% endblock css %}
+
+{% block body %}
+
+<div class="limiter">
+	<div class="container-login100"
+		style="background-image:url({% static 'JigyasaApp\loginSignup\images\bg-01.jpg' %});">
+		<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+			 
+              {% block content %}
+              {% endblock content %}
+
+		</div>
+	</div>
+</div>
+
+
+<div id="dropDownSelect1"></div>
+
+{% endblock body %}

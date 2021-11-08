@@ -1,7 +1,7 @@
 {% load static %}
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="" class="brand-link">
+    <a href="{% url 'staffHome' %}" class="brand-link">
       <img src={% static 'dashboard/dist/img/AdminLTELogo.png' %} alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light">JIGYASA</span>
@@ -11,10 +11,11 @@
     <div class="sidebar">
       
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="info">
-          <a href="#" class="d-block">{{ user.username }}</a>
-        </div>
+      <div class="info">
+        <a href="{% url 'StaffEditProfile' %}" class="d-block">{{user.first_name}} {{user.last_name}} </a>
+
       </div>
+    </div>
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -29,17 +30,43 @@
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-           
           </li>
           <li class="nav-item has-treeview menu-open">
             <<a href={% url 'StaffTakeAttendance' %} class="nav-link">
               <i class="nav-icon fas fa-th"></i>
-              <p>TakeaAttendance
+              <p>Take Attendance
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
            
           </li>
+          {% url 'FacultyUpdateAttendance' as FacultyUpdateAttendance %}
+          <li class="nav-item has-treeview menu-open">
+          <a href='{{FacultyUpdateAttendance}}' class="nav-link {% if request.path == FacultyUpdateAttendance %}active {% endif %}  ">
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+            View/ Update Attendance
+            </p>
+          </a>
+        </li>
+          {% url 'FacultyFeedback' as FacultyFeedback %}
+          <li class="nav-item has-treeview menu-open">
+          <a href='{{FacultyFeedback}}' class="nav-link {% if request.path == FacultyFeedback %}active {% endif %}  ">
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+            Feedback
+            </p>
+          </a>
+        </li>
+          {% url 'FacultyApplyLeave' as FacultyApplyLeave %}
+          <li class="nav-item has-treeview menu-open">
+          <a href='{{FacultyApplyLeave}}' class="nav-link {% if request.path == FacultyApplyLeave %}active {% endif %}  ">
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+            Apply for leave
+            </p>
+          </a>
+        </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
